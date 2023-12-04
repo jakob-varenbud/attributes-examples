@@ -1,139 +1,133 @@
+import type { CMSList } from 'src/types/CMSList';
 import type { CMSFilters } from '../../types/CMSFilters';
-import type { Product } from './types';
+import type { Offer } from './types';
 
 /**
  * Populate CMS Data from an external API.
  */
 window.fsAttributes = window.fsAttributes || [];
 window.fsAttributes.push([
-  'cmsfilter',
-  async (filtersInstances: CMSFilters[]) => {
-    // Get the filters instance
-    const [filtersInstance] = filtersInstances;
+  'cmsload',
+  async (listInstances: CMSList[]) => {
+    // Retrieve the list instance from the CMS
+    const [listInstance] = listInstances;
 
-    // Get the list instance
-    const { listInstance } = filtersInstance;
+    // Save a copy of the first item as a template
+    const [item] = listInstance.items;
+    const itemTemplateElement = item.element;
 
-    // Save a copy of the template
-    const [firstItem] = listInstance.items;
-    const itemTemplateElement = firstItem.element;
+    // Fetch external data (offers)
+    const offers = await fetchOffers();
 
-    // Fetch external data
-    const products = await fetchProducts();
-
-    // Remove existing items
+    // Remove placeholder items from the list
     listInstance.clearItems();
 
-    // Create the new items
-    const newItems = products.map((product) => createItem(product, itemTemplateElement));
+    // Create new items based on the fetched offers
+    const newItems = offers.map((offer) => newItem(offer, itemTemplateElement));
 
-    // Populate the list
+    // Add the new items to the list
     await listInstance.addItems(newItems);
 
-    // Get the template filter
-    const filterTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
-    if (!filterTemplateElement) return;
+    window.fsAttributes.push([
+      'cmsfilter',
+      (filtersInstances: CMSFilters[]) => {
+        //Get the Filters Instance
+        const [filtersInstance] = filtersInstances;
 
-    // Get the parent wrapper
-    const filtersWrapper = filterTemplateElement.parentElement;
-    if (!filtersWrapper) return;
+        //Get the radio template element
+        const filtersRadioTemplateElement = filtersInstance.form.querySelector('[data-element="filter"]');
+        if (!filtersRadioTemplateElement) return;
 
-    // Remove the template from the DOM
-    filterTemplateElement.remove();
+        //Get the parent element of the radios
+        const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
+        if (!filtersWrapperElement) return;
 
-    // Collect the categories
-    const categories = collectCategories(products);
+        //Remove the template radio element
+        filtersRadioTemplateElement.remove();
 
-    // Create the new filters and append the to the parent wrapper
-    for (const category of categories) {
-      const newFilter = createFilter(category, filterTemplateElement);
-      if (!newFilter) continue;
+        //Collect all the categories of the offers
+        const tags = collectCategories(offers);
 
-      filtersWrapper.append(newFilter);
-    }
+        //Create new radio filters for each category and appen them in the parent wrapper
+        for (const tags of tagss) {
+          const newFilter = createFilter(tags, filtersRadioTemplateElement);
+          if (!newFilter) continue;
 
-    // Sync the CMSFilters instance with the new created filters
-    filtersInstance.storeFiltersData();
+          filtersWrapperElement.append(newFilter);
+        }
+        // Sync CMS Filters instance to read new filters data
+        filtersInstance.storeFiltersData();
+      },
+    ]);
   },
 ]);
-
 /**
- * Fetches fake products from Fake Store API.
- * @returns An array of {@link Product}.
+ * Function to fetch Offers from an external API.
+ * @returns A Promise resolving to an array of Offer objects.
  */
-const fetchProducts = async () => {
+const fetchOffers = async (): Promise<Offer[]> => {
   try {
-    const response = await fetch('https://fakestoreapi.com/products');
-    const data: Product[] = await response.json();
+    const response = await fetch('https://drsgroup.recruitee.com/api/offers/');
+    const data = await response.json();
+    const offers: Offer[] = data.offers; // Assuming the API response structure
 
-    return data;
+    return offers;
   } catch (error) {
+    console.error(error);
     return [];
   }
 };
 
-/**
- * Creates an item from the template element.
- * @param product The product data to create the item from.
- * @param templateElement The template element.
- *
- * @returns A new Collection Item element.
- */
-const createItem = (product: Product, templateElement: HTMLDivElement) => {
-  // Clone the template element
+const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
+  // Clone the template element to create a new item
   const newItem = templateElement.cloneNode(true) as HTMLDivElement;
 
-  // Query inner elements
-  const image = newItem.querySelector<HTMLImageElement>('[data-element="image"]');
+  // Query for internal elements of the Collection Item
   const title = newItem.querySelector<HTMLHeadingElement>('[data-element="title"]');
-  const category = newItem.querySelector<HTMLDivElement>('[data-element="category"]');
-  const description = newItem.querySelector<HTMLParagraphElement>('[data-element="description"]');
+  const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
 
-  // Populate inner elements
-  if (image) image.src = product.image;
-  if (title) title.textContent = product.title;
-  if (category) category.textContent = product.category;
-  if (description) description.textContent = product.description;
+  // Set the title text
+  if (title) title.textContent = offer.title;
 
-  return newItem;
-};
+  // Clear existing tags in the container (if any)
+  if (tagsContainer) tagsContainer.innerHTML = '';
 
-/**
- * Collects all the categories from the products' data.
- * @param products The products' data.
- *
- * @returns An array of {@link Product} categories.
- */
-const collectCategories = (products: Product[]) => {
-  const categories: Set<Product['category']> = new Set();
-
-  for (const { category } of products) {
-    categories.add(category);
+  // Add each tag as a separate element
+  if (tagsContainer && offer.tags) {
+    offer.tags.forEach((tag) => {
+      const tagElement = document.createElement('span'); // Create a new span for each tag
+      tagElement.textContent = tag;
+      tagElement.classList.add('tag-class'); // Add a class for styling (optional)
+      tagsContainer.appendChild(tagElement); // Append the tag element to the container
+    });
   }
 
-  return [...categories];
+  return newItem;
+  console.log(offers);
+};
+// Collects unique records of each category of the offer
+const collectCategories = (offers: Offer[]) => {
+  const tagss: Set<Offer['tags']> = new Set();
+  for (const { tags } of offers) {
+    categories.add(tags);
+  }
+  return [...tagss];
 };
 
-/**
- * Creates a new radio filter from the template element.
- * @param category The filter value.
- * @param templateElement The template element.
- *
- * @returns A new category radio filter.
- */
-const createFilter = (category: Product['category'], templateElement: HTMLLabelElement) => {
+const createFilter = (category: Offer['tags'], templateElement: HTMLLabelElement) => {
   // Clone the template element
-  const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
+  const newFilter = templateElement.cloneNode(true) as HTMLElement;
 
   // Query inner elements
   const label = newFilter.querySelector('span');
-  const radio = newFilter.querySelector('input');
+  const input = newFilter.querySelector('input');
 
-  if (!label || !radio) return;
+  if (!label || !input) return;
 
-  // Populate inner elements
+  // Populate inner element
   label.textContent = category;
-  radio.value = category;
+  input.value = category;
+  input.id = `radio-${category}`;
 
   return newFilter;
 };
