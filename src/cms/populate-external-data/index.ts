@@ -27,38 +27,6 @@ window.fsAttributes.push([
 
     // Add the new items to the list
     await listInstance.addItems(newItems);
-
-    window.fsAttributes.push([
-      'cmsfilter',
-      (filtersInstances: CMSFilters[]) => {
-        //Get the Filters Instance
-        const [filtersInstance] = filtersInstances;
-
-        //Get the radio template element
-        const filtersRadioTemplateElement = filtersInstance.form.querySelector('[data-element="filter"]');
-        if (!filtersRadioTemplateElement) return;
-
-        //Get the parent element of the radios
-        const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
-        if (!filtersWrapperElement) return;
-
-        //Remove the template radio element
-        filtersRadioTemplateElement.remove();
-
-        //Collect all the categories of the offers
-        const tags = collectCategories(offers);
-
-        //Create new radio filters for each category and appen them in the parent wrapper
-        for (const tags of tagss) {
-          const newFilter = createFilter(tags, filtersRadioTemplateElement);
-          if (!newFilter) continue;
-
-          filtersWrapperElement.append(newFilter);
-        }
-        // Sync CMS Filters instance to read new filters data
-        filtersInstance.storeFiltersData();
-      },
-    ]);
   },
 ]);
 /**
@@ -70,7 +38,6 @@ const fetchOffers = async (): Promise<Offer[]> => {
     const response = await fetch('https://drsgroup.recruitee.com/api/offers/');
     const data = await response.json();
     const offers: Offer[] = data.offers; // Assuming the API response structure
-
     return offers;
   } catch (error) {
     console.error(error);
@@ -78,6 +45,12 @@ const fetchOffers = async (): Promise<Offer[]> => {
   }
 };
 
+/**
+ * Function to create a new item based on a template element.
+ * @param offer The Offer data to populate the item.
+ * @param templateElement The HTML template element for the item.
+ * @returns A new HTMLDivElement representing the item.
+ */
 const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
   // Clone the template element to create a new item
   const newItem = templateElement.cloneNode(true) as HTMLDivElement;
@@ -97,37 +70,49 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
     offer.tags.forEach((tag) => {
       const tagElement = document.createElement('span'); // Create a new span for each tag
       tagElement.textContent = tag;
-      tagElement.classList.add('tag-class'); // Add a class for styling (optional)
       tagsContainer.appendChild(tagElement); // Append the tag element to the container
     });
   }
 
   return newItem;
-  console.log(offers);
-};
-// Collects unique records of each category of the offer
-const collectCategories = (offers: Offer[]) => {
-  const tagss: Set<Offer['tags']> = new Set();
-  for (const { tags } of offers) {
-    categories.add(tags);
-  }
-  return [...tagss];
 };
 
-const createFilter = (category: Offer['tags'], templateElement: HTMLLabelElement) => {
+/**
+ * Collects all the categories from the products' data.
+ * @param products The products' data.
+ *
+ * @returns An array of {@link Product} categories.
+ */
+const collectCategories = (products: Product[]) => {
+  const categories: Set<Product['category']> = new Set();
+
+  for (const { category } of products) {
+    categories.add(category);
+  }
+
+  return [...categories];
+};
+
+/**
+ * Creates a new radio filter from the template element.
+ * @param category The filter value.
+ * @param templateElement The template element.
+ *
+ * @returns A new category radio filter.
+ */
+const createFilter = (category: Product['category'], templateElement: HTMLLabelElement) => {
   // Clone the template element
-  const newFilter = templateElement.cloneNode(true) as HTMLElement;
+  const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
 
   // Query inner elements
   const label = newFilter.querySelector('span');
-  const input = newFilter.querySelector('input');
+  const radio = newFilter.querySelector('input');
 
-  if (!label || !input) return;
+  if (!label || !radio) return;
 
-  // Populate inner element
+  // Populate inner elements
   label.textContent = category;
-  input.value = category;
-  input.id = `radio-${category}`;
+  radio.value = category;
 
   return newFilter;
 };
