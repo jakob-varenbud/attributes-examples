@@ -76,43 +76,4 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
 
   return newItem;
 };
-
-/**
- * Collects all the categories from the products' data.
- * @param products The products' data.
- *
- * @returns An array of {@link Product} categories.
- */
-const collectCategories = (products: Product[]) => {
-  const categories: Set<Product['category']> = new Set();
-
-  for (const { category } of products) {
-    categories.add(category);
-  }
-
-  return [...categories];
-};
-
-/**
- * Creates a new radio filter from the template element.
- * @param category The filter value.
- * @param templateElement The template element.
- *
- * @returns A new category radio filter.
- */
-const createFilter = (category: Product['category'], templateElement: HTMLLabelElement) => {
-  // Clone the template element
-  const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
-
-  // Query inner elements
-  const label = newFilter.querySelector('span');
-  const radio = newFilter.querySelector('input');
-
-  if (!label || !radio) return;
-
-  // Populate inner elements
-  label.textContent = category;
-  radio.value = category;
-
-  return newFilter;
-};
+/////////
