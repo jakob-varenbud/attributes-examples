@@ -113,30 +113,6 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
 //////
 
 //+++++++Collects unique records of each tag of the products++++++++
-/*const collectCategories = (offers: Offer[]) => {
-  const categories: Set<Offer['tags']> = newSet();
-
-  for (const { tags } of offers) {
-    categories.add(tags);
-  }
-
-  return [...categories];
-};*/
-/*const collectTags = (offers: Offer[]) => {
-  const tagsSet = new Set<string>();
-
-  offers.forEach((offer) => {
-    if (offer.tags) {
-      // Stellen Sie sicher, dass tags vorhanden sind
-      offer.tags.forEach((tag) => {
-        tagsSet.add(tag);
-      });
-    }
-  });
-
-  return [...tagsSet];
-};
-*/
 const collectTags = (offers: Offer[]) => {
   const tagsSet = new Set<string>();
 
