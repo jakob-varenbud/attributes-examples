@@ -32,19 +32,23 @@ window.fsAttributes.push([
 
 window.fsAttributes.push([
   'cmsfilter',
-  (filtersInstances: CMSFilters[]) => {
+  async (filtersInstances: CMSFilters[]) => {
     //Get the filters instance
     const [filtersInstance] = filtersInstances;
+
     // Get the radio template element
     const filtersRadioTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
-
     if (!filtersRadioTemplateElement) return;
 
     //Get the parent of the radios - to place the radios
     const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
     if (!filtersWrapperElement) return;
+
     //Remove the template radio element
     filtersRadioTemplateElement.remove();
+
+    // Erneutes Abrufen der Offers-Daten
+    const offers = await fetchOffers();
 
     //Collect all the tags of the products
     const tags = collectTags(offers);
@@ -56,8 +60,9 @@ window.fsAttributes.push([
       filtersWrapperElement.append(newFilter);
     });
 
-    // Snyx CMSFilters instance to read the new filters data
-    filtersInstances.storeFiltersData();
+    console.log(filtersInstances);
+    // Sync CMSFilters instance to read the new filters data
+    filtersInstance.storeFiltersData();
   },
 ]);
 
