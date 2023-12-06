@@ -27,42 +27,40 @@ window.fsAttributes.push([
 
     // Add the new items to the list
     await listInstance.addItems(newItems);
-  },
-]);
 
-window.fsAttributes.push([
-  'cmsfilter',
-  async (filtersInstances: CMSFilters[]) => {
-    //Get the filters instance
-    const [filtersInstance] = filtersInstances;
+    window.fsAttributes.push([
+      'cmsfilter',
+      async (filtersInstances: CMSFilters[]) => {
+        //Get the filters instance
+        const [filtersInstance] = filtersInstances;
 
-    // Get the radio template element
-    const filtersRadioTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
-    if (!filtersRadioTemplateElement) return;
+        // Get the radio template element
+        const filtersRadioTemplateElement =
+          filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
+        if (!filtersRadioTemplateElement) return;
 
-    //Get the parent of the radios - to place the radios
-    const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
-    if (!filtersWrapperElement) return;
+        //Get the parent of the radios - to place the radios
+        const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
+        if (!filtersWrapperElement) return;
 
-    //Remove the template radio element
-    filtersRadioTemplateElement.remove();
+        //Remove the template radio element
+        filtersRadioTemplateElement.remove();
 
-    // Erneutes Abrufen der Offers-Daten
-    const offers = await fetchOffers();
+        //Collect all the tags of the products
+        const tags = collectTags(offers);
 
-    //Collect all the tags of the products
-    const tags = collectTags(offers);
+        // Erstellt neue Radiofilter für jedes Tag und fügt sie dem Elternelement hinzu
+        tags.forEach((tag) => {
+          const newFilter = createFilter(tag, filtersRadioTemplateElement);
+          if (!newFilter) return;
+          filtersWrapperElement.append(newFilter);
+        });
 
-    // Erstellt neue Radiofilter für jedes Tag und fügt sie dem Elternelement hinzu
-    tags.forEach((tag) => {
-      const newFilter = createFilter(tag, filtersRadioTemplateElement);
-      if (!newFilter) return;
-      filtersWrapperElement.append(newFilter);
-    });
-
-    console.log(filtersInstances);
-    // Sync CMSFilters instance to read the new filters data
-    filtersInstance.storeFiltersData();
+        console.log(filtersInstance);
+        // Sync CMSFilters instance to read the new filters data
+        filtersInstance.storeFiltersData();
+      },
+    ]);
   },
 ]);
 
