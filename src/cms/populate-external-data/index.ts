@@ -92,9 +92,9 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
   const newItem = templateElement.cloneNode(true) as HTMLDivElement;
 
   // Query for internal elements of the Collection Item
-  const title = newItem.querySelector<HTMLHeadingElement>('[data-element="title"]');
+  const title = newItem.querySelector<HTMLDivElement>('[data-element="title"]');
   const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
-
+  const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
   // Set the title text
   if (title) title.textContent = offer.title;
 
@@ -108,6 +108,11 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
       tagElement.textContent = tag;
       tagsContainer.appendChild(tagElement); // Append the tag element to the container
     });
+  }
+
+  // Set the button link to open in a new tab
+  if (button && offer.careers_url) {
+    button.setAttribute('onclick', `window.open('${offer.careers_url}', '_blank')`);
   }
 
   return newItem;
