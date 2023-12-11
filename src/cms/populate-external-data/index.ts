@@ -95,16 +95,18 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
   const title = newItem.querySelector<HTMLDivElement>('[data-element="title"]');
   const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
   const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
+  const cities = newItem.querySelector<HTMLDivElement>('[data-element="cities"]'); // Select the div where the city shoulb be placed in
   // Set the title text
   if (title) title.textContent = offer.title;
 
-  // Clear existing tags in the container (if any)
+  // Clear existing content in the container (tags,cities)
   if (tagsContainer) tagsContainer.innerHTML = '';
+  if (cities) cities.innerHTML = '';
 
   // Add each tag as a separate element
   if (tagsContainer && offer.tags) {
     offer.tags.forEach((tag) => {
-      const tagElement = document.createElement('span'); // Create a new span for each tag
+      const tagElement = document.createElement('span'); // Create a new span for each tag - tagElemet als Konstante Var -/tag als Funktionsname
       tagElement.textContent = tag;
       tagsContainer.appendChild(tagElement); // Append the tag element to the container
     });
@@ -113,6 +115,13 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
   // Set the button link to open in a new tab
   if (button && offer.careers_url) {
     button.setAttribute('onclick', `window.open('${offer.careers_url}', '_blank')`);
+  }
+
+  //Add each city as a separate element
+  if (cities && offer.city) {
+    const cityElement = document.createElement('span'); // Create a new span for the city
+    cityElement.textContent = offer.city; // Set the text content to the city from the offer
+    cities.appendChild(cityElement); // Append the city element to the cities container
   }
 
   return newItem;
