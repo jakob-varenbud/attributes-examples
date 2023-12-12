@@ -27,40 +27,54 @@ window.fsAttributes.push([
 
     // Add the new items to the list
     await listInstance.addItems(newItems);
+  },
+]);
 
-    window.fsAttributes.push([
-      'cmsfilter',
-      async (filtersInstances: CMSFilters[]) => {
-        //Get the filters instance
-        const [filtersInstance] = filtersInstances;
+window.fsAttributes.push([
+  'cmsfilter',
+  async (filtersInstances: CMSFilters[]) => {
+    //Get the filters instance
+    const [filtersInstance] = filtersInstances;
 
-        // Get the radio template element
-        const filtersRadioTemplateElement =
-          filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
-        if (!filtersRadioTemplateElement) return;
+    // Get the radio template elements for tags and cities
+    const filtersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
+    const filtersCityTemplateElement =
+      filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="cityfilter"]');
 
-        //Get the parent of the radios - to place the radios
-        const filtersWrapperElement = filtersRadioTemplateElement.parentElement;
-        if (!filtersWrapperElement) return;
+    if (!filtersTagTemplateElement || !filtersCityTemplateElement) return;
 
-        //Remove the template radio element
-        filtersRadioTemplateElement.remove();
+    // Get the parent elements of the tag and city radios
+    const tagWrapperElement = filtersTagTemplateElement.parentElement;
+    const cityWrapperElement = filtersCityTemplateElement.parentElement;
 
-        //Collect all the tags of the products
-        const tags = collectTags(offers);
+    if (!tagWrapperElement || !cityWrapperElement) return;
 
-        // Erstellt neue Radiofilter für jedes Tag und fügt sie dem Elternelement hinzu
-        tags.forEach((tag) => {
-          const newFilter = createFilter(tag, filtersRadioTemplateElement);
-          if (!newFilter) return;
-          filtersWrapperElement.append(newFilter);
-        });
+    // Remove the template radio elements
+    filtersTagTemplateElement.remove();
+    filtersCityTemplateElement.remove();
 
-        console.log(filtersInstance);
-        // Sync CMSFilters instance to read the new filters data
-        filtersInstance.storeFiltersData();
-      },
-    ]);
+    // Fetch the offers again
+    const offers = await fetchOffers();
+
+    // Collect tags and cities
+    const { tags, cities } = collectTagsAndCities(offers);
+
+    // Create and append tag filters
+    tags.forEach((tag) => {
+      const newTagFilter = createFilter(tag, filtersTagTemplateElement);
+      if (!newTagFilter) return;
+      tagWrapperElement.append(newTagFilter);
+    });
+
+    // Create and append city filters
+    cities.forEach((city) => {
+      const newCityFilter = createCityFilter(city, filtersCityTemplateElement);
+      if (!newCityFilter) return;
+      cityWrapperElement.append(newCityFilter);
+    });
+
+    // Sync CMSFilters instance to read the new filters data
+    filtersInstance.storeFiltersData();
   },
 ]);
 
@@ -130,23 +144,23 @@ const newItem = (offer: Offer, templateElement: HTMLDivElement) => {
 //////
 
 //+++++++Collects unique records of each tag of the products++++++++
-const collectTags = (offers: Offer[]) => {
+const collectTagsAndCities = (offers: Offer[]) => {
   const tagsSet = new Set<string>();
+  const citiesSet = new Set<string>();
 
   offers.forEach((offer) => {
-    // Überprüfen, ob tags vorhanden sind und nicht leer sind
-    if (offer.tags && offer.tags.length > 0) {
-      offer.tags.forEach((tag) => {
-        tagsSet.add(tag);
-      });
+    if (offer.tags) {
+      offer.tags.forEach((tag) => tagsSet.add(tag));
+    }
+    if (offer.city) {
+      citiesSet.add(offer.city);
     }
   });
 
-  return [...tagsSet];
+  return { tags: [...tagsSet], cities: [...citiesSet] };
 };
 
 //Creates a new radio filter from the template + external data
-
 const createFilter = (tag: string, templateElement: HTMLLabelElement): HTMLElement | null => {
   // Klonen des Template-Elements
   const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
@@ -164,4 +178,18 @@ const createFilter = (tag: string, templateElement: HTMLLabelElement): HTMLEleme
   input.id = `radio-${tag}`; // Die ID des 'input' wird gesetzt, um sie einzigartig zu machen
 
   return newFilter; // Das modifizierte und geklonte Element wird zurückgegeben
+};
+
+const createCityFilter = (city: string, templateElement: HTMLLabelElement): HTMLElement | null => {
+  const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
+  const label = newFilter.querySelector('span');
+  const input = newFilter.querySelector('input');
+
+  if (!label || !input) return null;
+
+  label.textContent = city;
+  input.value = city;
+  input.id = `radio-city-${city}`;
+
+  return newFilter;
 };
