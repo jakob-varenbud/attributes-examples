@@ -1,29 +1,10 @@
-export const setupToggleElementTags = () => {
+export const setupToggleElement = (headId, radioWrapId) => {
   document.addEventListener('DOMContentLoaded', () => {
-    const head = document.getElementById('head-tags');
-    const radiowrap = document.getElementById('radio-tags-wrap');
+    const head = document.getElementById(headId);
+    const radiowrap = document.getElementById(radioWrapId);
 
     head?.addEventListener('click', () => {
-      if (radiowrap?.style.height === 'auto') {
-        radiowrap.style.height = '0';
-      } else {
-        radiowrap.style.height = 'auto';
-      }
-    });
-  });
-};
-
-export const setupToggleElementCities = () => {
-  document.addEventListener('DOMContentLoaded', () => {
-    const head = document.getElementById('head-ctiy');
-    const radiowrap = document.getElementById('radio-city-wrap');
-
-    head?.addEventListener('click', () => {
-      if (radiowrap?.style.height === 'auto') {
-        radiowrap.style.height = '0';
-      } else {
-        radiowrap.style.height = 'auto';
-      }
+      radiowrap.style.height = radiowrap.style.height === 'auto' ? '0' : 'auto';
     });
   });
 };
