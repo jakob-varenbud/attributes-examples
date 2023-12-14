@@ -16,7 +16,7 @@
     /* Module Resolution Options */
     "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "$utils/*": ["src/utils/*"]
+      "$utils/*": ["src/cms/populate-external-data/utils/*"]
     },
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
