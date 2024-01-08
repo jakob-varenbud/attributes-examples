@@ -88,5 +88,5 @@ export const setupCMS = () => {
       // Sync CMSFilters instance to read the new filters data
       filtersInstance.storeFiltersData();
     },
-  );
+  ]);
 };
