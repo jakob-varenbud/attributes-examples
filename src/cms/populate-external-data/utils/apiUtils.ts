@@ -32,9 +32,10 @@ export async function fetchOffers(): Promise<Offer[]> {
  * @returns An object containing arrays of unique tags and unique cities.
  */
 
-export function collectTagsAndCities(offers: Offer[]) {
+export function collectTagsAndCitiesAndDepartments(offers: Offer[]) {
   const tagsSet = new Set<string>();
   const citiesSet = new Set<string>();
+  const departmentsSet = new Set<string>();
 
   offers.forEach((offer) => {
     if (offer.tags) {
@@ -43,7 +44,10 @@ export function collectTagsAndCities(offers: Offer[]) {
     if (offer.city) {
       citiesSet.add(offer.city);
     }
+    if (offer.department) {
+      departmentsSet.add(offer.department);
+    }
   });
 
-  return { tags: [...tagsSet], cities: [...citiesSet] };
+  return { tags: [...tagsSet], cities: [...citiesSet], departments: [...departmentsSet] };
 }

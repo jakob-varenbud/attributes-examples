@@ -15,12 +15,14 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
   const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
   const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
   const cities = newItem.querySelector<HTMLDivElement>('[data-element="cities"]'); // Select the div where the city shoulb be placed in
+  const departments = newItem.querySelector<HTMLDivElement>('[data-element="department"]'); //Select the div where the department should be placed in
   // Set the title text
   if (title) title.textContent = offer.title;
 
-  // Clear existing content in the container (tags,cities)
+  // Clear existing content in the container (tags,cities,departments)
   if (tagsContainer) tagsContainer.innerHTML = '';
   if (cities) cities.innerHTML = '';
+  if (departments) departments.innerHTML = '';
 
   // Add each tag as a separate element
   if (tagsContainer && offer.tags) {
@@ -42,8 +44,16 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
     cityElement.textContent = offer.city; // Set the text content to the city from the offer
     cities.appendChild(cityElement); // Append the city element to the cities container
   }
+
+  //Add each deartment as a separte element
+  if (departments && offer.department) {
+    const departmentElement = document.createElement('span'); //Create new span for the deparmtment
+    departmentElement.textContent = offer.department; //Set the text content to the department from the offer
+    departments.appendChild(departmentElement); //Append the department element to the departments container
+  }
   return newItem;
 }
+
 /**
  * Creates a new radio filter element based on a provided template.
  * This function clones a template label element and modifies it
@@ -86,5 +96,18 @@ export function createCityFilter(city: string, templateElement: HTMLLabelElement
   label.textContent = city;
   input.value = city;
   input.id = `radio-city-${city}`;
+  return newFilter;
+}
+
+export function createDepartmentFilter(department: string, templateElement: HTMLLabelElement): HTMLElement | null {
+  const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
+  const label = newFilter.querySelector('span');
+  const input = newFilter.querySelector('input');
+
+  if (!label || !input) return null;
+
+  label.textContent = department;
+  input.value = department;
+  input.id = `radio-${department}`;
   return newFilter;
 }

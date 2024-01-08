@@ -13,3 +13,6 @@ setupToggleElement('head-tags', 'radio-tags-wrap');
 
 // Setze das Dropdown für Cities
 setupToggleElement('head-ctiy', 'radio-city-wrap');
+
+// Setze das Dropdown für Department
+setupToggleElement('head-department', 'radio-department-wrap');
