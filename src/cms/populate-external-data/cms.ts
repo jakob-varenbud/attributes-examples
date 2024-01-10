@@ -17,12 +17,15 @@ export const setupCMS = () => {
       const itemTemplateElement = item.element;
 
       // Fetch external data (offers)
-      const offers = await fetchOffers();
+      let offers = await fetchOffers();
+
+      // Filter offers for "United States of America"
+      offers = offers.filter((offer) => offer.country === 'Vereinigte Staaten von Amerika');
 
       // Remove placeholder items from the list
       listInstance.clearItems();
 
-      // Create new items based on the fetched offers
+      // Create new items based on the filtered offers
       const newItems = offers.map((offer) => newItem(offer, itemTemplateElement));
 
       // Add the new items to the list
