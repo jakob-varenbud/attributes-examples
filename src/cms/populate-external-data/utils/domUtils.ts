@@ -81,7 +81,7 @@ export function createFilter(tag: string, templateElement: HTMLLabelElement): HT
   // Innere Elemente befüllen
   label.textContent = tag; // Das 'label' wird mit dem Tag-Text befüllt
   input.value = tag; // Das 'input' erhält als Wert das Tag
-  input.id = `radio-${tag}`; // Die ID des 'input' wird gesetzt, um sie einzigartig zu machen
+  input.id = `checkbox-${tag}`; // Die ID des 'input' wird gesetzt, um sie einzigartig zu machen
 
   return newFilter; // Das modifizierte und geklonte Element wird zurückgegeben
 }
@@ -95,7 +95,7 @@ export function createCityFilter(city: string, templateElement: HTMLLabelElement
 
   label.textContent = city;
   input.value = city;
-  input.id = `radio-city-${city}`;
+  input.id = `checkbox-city-${city}`;
   return newFilter;
 }
 
@@ -108,6 +108,6 @@ export function createDepartmentFilter(department: string, templateElement: HTML
 
   label.textContent = department;
   input.value = department;
-  input.id = `radio-${department}`;
+  input.id = `checkbox-${department}`;
   return newFilter;
 }
