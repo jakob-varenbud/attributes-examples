@@ -55,7 +55,7 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
 }
 
 /**
- * Creates a new radio filter element based on a provided template.
+ * Creates a new checkbox filter element based on a provided template.
  * This function clones a template label element and modifies it
  * to create a tag-specific radio filter. The tag is used to set
  * the text and value attributes of the label's child elements.
@@ -63,10 +63,10 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
  *
  * @param tag The string used to set the text content and value of the new filter.
  * @param templateElement The HTMLLabelElement to be cloned and modified as the new filter.
- * @returns An HTMLElement representing the newly created radio filter, or null if essential elements are missing.
+ * @returns An HTMLElement representing the newly created checkbox filter, or null if essential elements are missing.
  */
 
-//Creates a new radio filter from the template + external data
+//Creates a new checkbox filter from the template + external data
 export function createFilter(tag: string, templateElement: HTMLLabelElement): HTMLElement | null {
   // Klonen des Template-Elements
   const newFilter = templateElement.cloneNode(true) as HTMLLabelElement;
