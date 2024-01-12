@@ -37,7 +37,10 @@ export function collectTagsAndCitiesAndDepartments(offers: Offer[]) {
   const citiesSet = new Set<string>();
   const departmentsSet = new Set<string>();
 
-  offers.forEach((offer) => {
+  // Filter offers by country
+  const filteredOffers = offers.filter((offer) => offer.country === 'Vereinigte Staaten von Amerika');
+
+  filteredOffers.forEach((offer) => {
     if (offer.tags) {
       offer.tags.forEach((tag) => tagsSet.add(tag));
     }

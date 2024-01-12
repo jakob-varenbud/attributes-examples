@@ -64,8 +64,9 @@ export const setupCMS = () => {
       // Fetch the offers again
       const offers = await fetchOffers();
 
-      // Collect tags and cities
-      const { tags, cities, departments } = collectTagsAndCitiesAndDepartments(offers);
+      // Collect tags, cities, and departments for a specific country
+      const countryFilter = 'Vereinigte Staaten von Amerika'; // Adjust the country name as needed
+      const { tags, cities, departments } = collectTagsAndCitiesAndDepartments(offers, countryFilter);
 
       // Create and append tag filters
       tags.forEach((tag) => {
