@@ -17,7 +17,8 @@
     const tagsSet = /* @__PURE__ */ new Set();
     const citiesSet = /* @__PURE__ */ new Set();
     const departmentsSet = /* @__PURE__ */ new Set();
-    offers.forEach((offer) => {
+    const filteredOffers = offers.filter((offer) => offer.country === "Vereinigte Staaten von Amerika");
+    filteredOffers.forEach((offer) => {
       if (offer.tags) {
         offer.tags.forEach((tag) => tagsSet.add(tag));
       }
@@ -139,7 +140,8 @@
         filtersCityTemplateElement.remove();
         filtersDepartmentTemplateElement.remove();
         const offers = await fetchOffers();
-        const { tags, cities, departments } = collectTagsAndCitiesAndDepartments(offers);
+        const countryFilter = "Vereinigte Staaten von Amerika";
+        const { tags, cities, departments } = collectTagsAndCitiesAndDepartments(offers, countryFilter);
         tags.forEach((tag) => {
           const newTagFilter = createFilter(tag, filtersTagTemplateElement);
           if (!newTagFilter)
