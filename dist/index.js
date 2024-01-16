@@ -5,7 +5,8 @@
     try {
       const response = await fetch("https://drsgroup.recruitee.com/api/offers/");
       const data = await response.json();
-      const offers = data.offers;
+      let offers = data.offers;
+      offers = offers.filter((offer) => offer.country !== "Vereinigte Staaten von Amerika");
       console.log(offers);
       return offers;
     } catch (error) {
@@ -77,7 +78,7 @@
       return null;
     label.textContent = tag;
     input.value = tag;
-    input.id = `radio-${tag}`;
+    input.id = `checkbox-${tag}`;
     return newFilter;
   }
   function createCityFilter(city, templateElement) {
@@ -88,7 +89,7 @@
       return null;
     label.textContent = city;
     input.value = city;
-    input.id = `radio-city-${city}`;
+    input.id = `checkbox-city-${city}`;
     return newFilter;
   }
   function createDepartmentFilter(department, templateElement) {
@@ -99,7 +100,7 @@
       return null;
     label.textContent = department;
     input.value = department;
-    input.id = `radio-${department}`;
+    input.id = `checkbox-${department}`;
     return newFilter;
   }
 
