@@ -33,13 +33,19 @@ export const setupCMS = () => {
     'cmsfilter',
     async (filtersInstances: CMSFilters[]) => {
       //Get the filters instance
-      const [filtersInstance] = filtersInstances;
+      const [filterInstance] = filtersInstances;
+
+      // listener for the filterInstance (called everytime the filters changed)
+      filterInstance.listInstance.on('renderitems', (renderedItems) => {
+        // call sub method to get items matching ALL filters
+        filterAND(renderedItems, filterInstance.filtersData);
+    });
 
       // Get the radio template elements for tags, cities and departments
-      const filtersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
+      const filtersTagTemplateElement = filterInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
       const filtersCityTemplateElement =
-        filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="cityfilter"]');
-      const filtersDepartmentTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>(
+        filterInstance.form.querySelector<HTMLLabelElement>('[data-element="cityfilter"]');
+      const filtersDepartmentTemplateElement = filterInstance.form.querySelector<HTMLLabelElement>(
         '[data-element="departmentfilter"]'
       );
 
@@ -86,7 +92,29 @@ export const setupCMS = () => {
       });
 
       // Sync CMSFilters instance to read the new filters data
-      filtersInstance.storeFiltersData();
+      filterInstance.storeFiltersData();
     },
   ]);
 };
+
+const filterAND = function (renderItems, filterData) {
+
+  //console.log('fData', fData[0].values.values())
+
+  // get values of all filters
+  const filterValues = filterData[0].values;
+
+  // iterate through all filters
+  filterValues.forEach((value) => {
+    console.log('value: ' + value)
+  });
+
+  //const filteredItems = x[0].props.value.find(item => item === 'Werkstatt')
+  //console.log(x[0].props.category.values)
+
+  // test: filter all items by fixed filter value
+  // todo: implement dynamic filter using the current filter values from above
+  const filteredItems = renderItems.filter(item => item.props.category.values.has('Werkstatt'))
+  //console.clear()
+  console.log(filteredItems)
+}
