@@ -1,4 +1,4 @@
-// src/cms/populate-external-data/cms.ts
+/ src/cms / populate - external - data / cms.ts;
 import { fetchOffers, collectTagsAndCitiesAndDepartments } from './utils/apiUtils';
 import { newItem, createFilter, createCityFilter, createDepartmentFilter } from './utils/domUtils';
 import type { CMSList } from './types/CMSList';
@@ -35,7 +35,7 @@ export const setupCMS = () => {
       //Get the filters instance
       const [filtersInstance] = filtersInstances;
 
-      // Get the checkbox template elements for tags, cities and departments
+      // Get the radio template elements for tags, cities and departments
       const filtersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
       const filtersCityTemplateElement =
         filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="cityfilter"]');
