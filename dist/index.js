@@ -5,7 +5,8 @@
     try {
       const response = await fetch("https://drsgroup.recruitee.com/api/offers/");
       const data = await response.json();
-      const offers = data.offers;
+      let offers = data.offers;
+      offers = offers.filter((offer) => offer.country !== "Vereinigte Staaten von Amerika");
       console.log(offers);
       return offers;
     } catch (error) {
@@ -77,7 +78,7 @@
       return null;
     label.textContent = tag;
     input.value = tag;
-    input.id = `radio-${tag}`;
+    input.id = `checkbox-${tag}`;
     return newFilter;
   }
   function createCityFilter(city, templateElement) {
@@ -88,7 +89,7 @@
       return null;
     label.textContent = city;
     input.value = city;
-    input.id = `radio-city-${city}`;
+    input.id = `checkbox-city-${city}`;
     return newFilter;
   }
   function createDepartmentFilter(department, templateElement) {
@@ -99,7 +100,7 @@
       return null;
     label.textContent = department;
     input.value = department;
-    input.id = `radio-${department}`;
+    input.id = `checkbox-${department}`;
     return newFilter;
   }
 
@@ -175,6 +176,18 @@
       });
     });
   };
+  var setupNextBackButtons2 = () => {
+    let Webflow = window.Webflow || [];
+    Webflow.push(function() {
+      const leftArrow = $("#flowbaseSlider2 .w-slider-arrow-left");
+      const rightArrow = $("#flowbaseSlider2 .w-slider-arrow-right");
+      $("#flowbaseSlider2").on("click", ".back-button", function() {
+        leftArrow.trigger("tap");
+      }).on("click", ".next-button", function() {
+        rightArrow.trigger("tap");
+      });
+    });
+  };
 
   // src/generalUtils/filterDropDownTags.ts
   var setupToggleElement = (headId, radioWrapId) => {
@@ -190,6 +203,7 @@
   // src/index.ts
   setupCMS();
   setupNextBackButtons();
+  setupNextBackButtons2();
   setupToggleElement("head-tags", "radio-tags-wrap");
   setupToggleElement("head-ctiy", "radio-city-wrap");
   setupToggleElement("head-department", "radio-department-wrap");
