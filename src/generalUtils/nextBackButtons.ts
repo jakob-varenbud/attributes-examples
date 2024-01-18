@@ -1,5 +1,3 @@
-// src/utils/nextBackButtons.js
-
 const setupNextBackButtons = () => {
   let Webflow = window.Webflow || [];
   Webflow.push(function () {
@@ -17,3 +15,22 @@ const setupNextBackButtons = () => {
 };
 
 export { setupNextBackButtons };
+
+//second slider - most wanted jobs
+const setupNextBackButtons2 = () => {
+  let Webflow = window.Webflow || [];
+  Webflow.push(function () {
+    const leftArrow = $('#flowbaseSlider2 .w-slider-arrow-left');
+    const rightArrow = $('#flowbaseSlider2 .w-slider-arrow-right');
+
+    $('#flowbaseSlider2')
+      .on('click', '.back-button', function () {
+        leftArrow.trigger('tap');
+      })
+      .on('click', '.next-button', function () {
+        rightArrow.trigger('tap');
+      });
+  });
+};
+
+export { setupNextBackButtons2 };

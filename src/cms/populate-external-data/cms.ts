@@ -1,4 +1,3 @@
-/ src/cms / populate - external - data / cms.ts;
 import { fetchOffers, collectTagsAndCitiesAndDepartments } from './utils/apiUtils';
 import { newItem, createFilter, createCityFilter, createDepartmentFilter } from './utils/domUtils';
 import type { CMSList } from './types/CMSList';
