@@ -35,7 +35,7 @@ export const setupCMS = () => {
       //Get the filters instance
       const [filtersInstance] = filtersInstances;
 
-      // Get the radio template elements for tags, cities and departments
+      // Get the checkbox template elements for tags, cities and departments
       const filtersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
       const filtersCityTemplateElement =
         filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="cityfilter"]');
