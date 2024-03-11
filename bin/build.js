@@ -8,10 +8,10 @@ const production = process.env.NODE_ENV === 'production';
 const entryPoints = [
   'home/index.ts',
   'usa/index.ts',
-  'lp-berufsfeld.inex.ts',
-  'lp-stadt.index.ts',
-  'lp.taettigkeit.index.ts',
-  'lp-unternehmen.index.ts',
+  'lp-berufsfeld/index.ts',
+  'lp-stadt/index.ts',
+  'lp-taetigkeit/index.ts',
+  'lp-unternehmen/index.ts',
 ];
 
 /**
