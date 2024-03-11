@@ -14,11 +14,6 @@ export async function fetchOffers(): Promise<Offer[]> {
     const response = await fetch('https://drsgroup.recruitee.com/api/offers/');
     const data = await response.json();
     let offers: Offer[] = data.offers;
-
-    // Exclude offers from "Vereinigte Staaten von Amerika"
-    offers = offers.filter((offer) => offer.country !== 'Vereinigte Staaten von Amerika');
-    offers = offers.filter((offer) => offer.country !== 'United States');
-
     console.log(offers);
     return offers;
   } catch (error) {
@@ -36,6 +31,9 @@ export async function fetchOffers(): Promise<Offer[]> {
  * @param offers An array of Offer objects to be processed.
  * @returns An object containing arrays of unique tags and unique cities.
  */
+
+// Filter offers by country
+const filteredOffers = offers.filter((offer) => offer.country === 'Vereinigte Staaten von Amerika');
 
 export function collectTagsAndCitiesAndDepartments(offers: Offer[]) {
   const tagsSet = new Set<string>();
