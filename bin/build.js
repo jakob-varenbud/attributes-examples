@@ -5,7 +5,14 @@ const buildDirectory = 'dist';
 const production = process.env.NODE_ENV === 'production';
 
 // Config entrypoint files
-const entryPoints = ['src/index.ts'];
+const entryPoints = [
+  'home/index.ts',
+  'usa/index.ts',
+  'lp-berufsfeld.inex.ts',
+  'lp-stadt.index.ts',
+  'lp.taettigkeit.index.ts',
+  'lp-unternehmen.index.ts',
+];
 
 /**
  * Default Settings
