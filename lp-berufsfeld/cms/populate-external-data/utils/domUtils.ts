@@ -45,7 +45,7 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
     cities.appendChild(cityElement); // Append the city element to the cities container
   }
 
-  //Add each deartment as a separte element
+  //Add each department as a separte element
   if (departments && offer.department) {
     const departmentElement = document.createElement('span'); //Create new span for the deparmtment
     departmentElement.textContent = offer.department; //Set the text content to the department from the offer
@@ -77,6 +77,15 @@ export function createFilter(tag: string, templateElement: HTMLLabelElement): HT
 
   // Überprüfen, ob die erforderlichen Elemente gefunden wurden
   if (!label || !input) return null;
+
+  //Liste aller elraubten tags defnieren
+  const allowedTags = ['Hagelschaden-Zentrum'];
+
+  // Überprüfen, ob der Tag in der Liste der erlaubten Tags enthalten ist
+  if (!allowedTags.includes(tag)) {
+    // Wenn der Tag nicht in der Liste der erlaubten Tags enthalten ist, breche die Funktion ab und gib null zurück
+    return null;
+  }
 
   // Innere Elemente befüllen
   label.textContent = tag; // Das 'label' wird mit dem Tag-Text befüllt
