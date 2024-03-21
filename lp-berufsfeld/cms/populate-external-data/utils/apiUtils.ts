@@ -20,7 +20,7 @@ export async function fetchOffers(): Promise<Offer[]> {
       (offer) => offer.country !== 'Vereinigte Staaten von Amerika' && offer.country !== 'United States'
     );
 
-    // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "TSG Hagelschaden-Zentrum" als Tag haben
+    // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "Hagelschaden-Zentrum" als Tag haben
     offers = offers.filter((offer) => offer.tags && offer.tags.includes('Hagelschaden-Zentrum'));
 
     console.log(offers);
