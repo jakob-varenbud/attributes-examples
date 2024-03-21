@@ -8,6 +8,7 @@
       let offers = data.offers;
       offers = offers.filter((offer) => offer.country !== "Vereinigte Staaten von Amerika");
       offers = offers.filter((offer) => offer.country !== "United States");
+      offers = offers.filter((offer) => offer.title !== "test");
       console.log(offers);
       return offers;
     } catch (error) {
