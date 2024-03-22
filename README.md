@@ -66,3 +66,6 @@ You can set up path aliases using the `paths` setting in `tsconfig.json`. This t
 ```
 
 To avoid any surprises, take some time to familiarize yourself with the [tsconfig](/tsconfig.json) enabled flags.
+
+Was es zur Implemtierung von Landingpages zu beachten gibt: 
+
