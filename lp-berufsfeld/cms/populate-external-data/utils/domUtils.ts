@@ -24,13 +24,11 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
   if (cities) cities.innerHTML = '';
   if (departments) departments.innerHTML = '';
 
-  // Add each tag as a separate element
-  if (tagsContainer && offer.tags) {
-    offer.tags.forEach((tag) => {
-      const tagElement = document.createElement('span'); // Create a new span for each tag - tagElemet als Konstante Var -/tag als Funktionsname
-      tagElement.textContent = tag;
-      tagsContainer.appendChild(tagElement); // Append the tag element to the container
-    });
+  // Add only the first tag if it exists
+  if (tagsContainer && offer.tags && offer.tags.length > 0) {
+    const tagElement = document.createElement('span'); // Create a new span for the first tag
+    tagElement.textContent = offer.tags[0]; // Set text content to the first tag
+    tagsContainer.appendChild(tagElement); // Append the first tag element to the container
   }
 
   // Set the button link to open in a new tab

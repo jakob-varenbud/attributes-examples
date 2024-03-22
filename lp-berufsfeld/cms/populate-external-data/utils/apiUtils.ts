@@ -20,8 +20,8 @@ export async function fetchOffers(): Promise<Offer[]> {
       (offer) => offer.country !== 'Vereinigte Staaten von Amerika' && offer.country !== 'United States'
     );
 
-    // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "Hagelschaden-Zentrum" als Tag haben
-    offers = offers.filter((offer) => offer.tags && offer.tags.includes('Hagelschaden-Zentrum'));
+    // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "test" als Tag haben
+    offers = offers.filter((offer) => offer.tags && offer.tags.includes('test'));
 
     console.log(offers);
     return offers;
