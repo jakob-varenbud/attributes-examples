@@ -78,19 +78,19 @@ export function createFilter(tag: string, templateElement: HTMLLabelElement): HT
   // Überprüfen, ob die erforderlichen Elemente gefunden wurden
   if (!label || !input) return null;
 
-  //Liste aller elraubten tags defnieren
-  const allowedTags = ['Hagelschaden-Zentrum'];
+  // Liste aller verbotenen Tags definieren
+  const forbiddenTags = ['test'];
 
-  // Überprüfen, ob der Tag in der Liste der erlaubten Tags enthalten ist
-  if (!allowedTags.includes(tag)) {
-    // Wenn der Tag nicht in der Liste der erlaubten Tags enthalten ist, breche die Funktion ab und gib null zurück
+  // Überprüfen, ob der Tag in der Liste der verbotenen Tags enthalten ist
+  if (forbiddenTags.includes(tag)) {
+    // Wenn der Tag in der Liste der verbotenen Tags enthalten ist, breche die Funktion ab und gib null zurück
     return null;
   }
 
   // Innere Elemente befüllen
   label.textContent = tag; // Das 'label' wird mit dem Tag-Text befüllt
   input.value = tag; // Das 'input' erhält als Wert das Tag
-  input.id = `checkbox-${tag}`; // Die ID des 'input' wird gesetzt, um sie einzigartig zu machen
+  input.id = `checkbox-${tag}`; // Die ID des 'input' wird direkt vom Tag gesetzt
 
   return newFilter; // Das modifizierte und geklonte Element wird zurückgegeben
 }
