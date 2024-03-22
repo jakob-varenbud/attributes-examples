@@ -67,7 +67,7 @@ You can set up path aliases using the `paths` setting in `tsconfig.json`. This t
 
 To avoid any surprises, take some time to familiarize yourself with the [tsconfig](/tsconfig.json) enabled flags.
 
-## Was es beim implemetieren von LPs zu beachten gibt
+## Was es beim Implemetieren von LPs zu beachten gibt
 
 Um nach Berfusfeld zu filtern - entsprechendes Tag in Recruitee hinzufügen.
 Anschließned in der apiUtils.ts den gefetchten Datensatz vorfiltern, entsprechen des geüwnschten tags
@@ -105,4 +105,18 @@ offers.forEach((offer) => {
     }
   }
 });
+```
+
+wichtig: wenn der code das Zweite Element Element data-element="second-filter" nicht findet, wird die Operation beendet. Also wenn das nicht nötig ist, muss das entsprechend im Code rausgenommen bzw. angepasst werden. Auch ein Eltern Wrapper der Filter Checkboxes muss gesetzt werden, denn auch hier gilt gleiches bezüglich der Fortfühtung der Operation.
+
+Ansosnten muss aufgrund der Funktionalität der CMS Filter Library entsprechend ein Zweites Fitler FEld in der UI eingerichtet werden, an dem sich die Filterlogik orientiert. Dieses kann ggf. über CSS auf hidden gesetzt werden.
+Hier die Anpassung im Code der domUtils.ts
+
+```typescript
+//Add second tag if exists
+if (secondTagsContainer && offer.tags && offer.tags.length > 0) {
+  const tagElement = document.createElement('span'); // Create a new span for the first tag
+  tagElement.textContent = offer.tags[1]; // Set text content to the first tag
+  secondTagsContainer.appendChild(tagElement); // Append the first tag element to the container
+}
 ```

@@ -13,14 +13,16 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
   // Query for internal elements of the Collection Item
   const title = newItem.querySelector<HTMLDivElement>('[data-element="title"]');
   const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
+  const secondTagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags1"]'); // Container for second tags
   const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
   const cities = newItem.querySelector<HTMLDivElement>('[data-element="cities"]'); // Select the div where the city shoulb be placed in
   const departments = newItem.querySelector<HTMLDivElement>('[data-element="department"]'); //Select the div where the department should be placed in
   // Set the title text
   if (title) title.textContent = offer.title;
 
-  // Clear existing content in the container (tags,cities,departments)
+  // Clear existing content in the container (tags,cities,departments
   if (tagsContainer) tagsContainer.innerHTML = '';
+  if (secondTagsContainer) secondTagsContainer.innerHTML = '';
   if (cities) cities.innerHTML = '';
   if (departments) departments.innerHTML = '';
 
@@ -29,6 +31,13 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
     const tagElement = document.createElement('span'); // Create a new span for the first tag
     tagElement.textContent = offer.tags[0]; // Set text content to the first tag
     tagsContainer.appendChild(tagElement); // Append the first tag element to the container
+  }
+
+  //Add second tag if exists
+  if (secondTagsContainer && offer.tags && offer.tags.length > 0) {
+    const tagElement = document.createElement('span'); // Create a new span for the first tag
+    tagElement.textContent = offer.tags[1]; // Set text content to the first tag
+    secondTagsContainer.appendChild(tagElement); // Append the first tag element to the container
   }
 
   // Set the button link to open in a new tab

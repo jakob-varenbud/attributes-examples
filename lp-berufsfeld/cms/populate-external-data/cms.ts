@@ -34,7 +34,7 @@ export const setupCMS = () => {
       //Get the filters instance
       const [filtersInstance] = filtersInstances;
 
-      // Get the radio template elements for tags, cities and departments
+      // Get the checkbox template elements for tags, cities and departments
       const filtersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>('[data-element="filter"]');
       const secondFiltersTagTemplateElement = filtersInstance.form.querySelector<HTMLLabelElement>(
         '[data-element="second-filter"]'
@@ -62,7 +62,7 @@ export const setupCMS = () => {
 
       if (!tagWrapperElement || !secondtagWrapperElement || !cityWrapperElement || !departmentWrapperElement) return;
 
-      // Remove the template radio elements
+      // Remove the template checkbox elements
       filtersTagTemplateElement.remove();
       filtersCityTemplateElement.remove();
       filtersDepartmentTemplateElement.remove();
@@ -81,18 +81,12 @@ export const setupCMS = () => {
         tagWrapperElement.append(newTagFilter);
       });
 
-      // Create and append tag filters for the second set of tags, specifically those at index 1 from each offer
-      const seenSecondTags = new Set(); // Verwende ein Set, um doppelte Tags zu vermeiden
       offers.forEach((offer) => {
         if (offer.tags && offer.tags.length > 1) {
           const secondTag = offer.tags[1]; // Nehme das zweite Tag aus jedem Angebot
-          // Stelle sicher, dass dieses Tag noch nicht verarbeitet wurde
-          if (!seenSecondTags.has(secondTag)) {
-            const newSecondTagFilter = createFilter(secondTag, secondFiltersTagTemplateElement);
-            if (newSecondTagFilter) {
-              secondtagWrapperElement.append(newSecondTagFilter);
-              seenSecondTags.add(secondTag); // Füge dieses Tag zum Set hinzu, um Duplikate zu vermeiden
-            }
+          const newSecondTagFilter = createFilter(secondTag, secondFiltersTagTemplateElement);
+          if (newSecondTagFilter) {
+            secondtagWrapperElement.append(newSecondTagFilter);
           }
         }
       });
