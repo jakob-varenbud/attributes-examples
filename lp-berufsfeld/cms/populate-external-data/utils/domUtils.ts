@@ -77,7 +77,7 @@ export function createFilter(tag: string, templateElement: HTMLLabelElement): HT
   if (!label || !input) return null;
 
   // Liste aller verbotenen Tags definieren
-  const forbiddenTags = ['test'];
+  const forbiddenTags = ['test1'];
 
   // Überprüfen, ob der Tag in der Liste der verbotenen Tags enthalten ist
   if (forbiddenTags.includes(tag)) {
