@@ -16,8 +16,13 @@ export async function fetchOffers(): Promise<Offer[]> {
     let offers: Offer[] = data.offers;
 
     // Exclude offers from "Vereinigte Staaten von Amerika"
-    offers = offers.filter((offer) => offer.country !== 'Vereinigte Staaten von Amerika');
-    offers = offers.filter((offer) => offer.country !== 'United States');
+    offers = offers.filter(
+      (offer) =>
+        offer.country !== 'Vereinigte Staaten von Amerika' &&
+        offer.country !== 'United States' &&
+        offer.country !== 'United Arab Emirates'
+    );
+
     // Exclude offers with the title "test"
     offers = offers.filter((offer) => offer.title !== 'test');
 
