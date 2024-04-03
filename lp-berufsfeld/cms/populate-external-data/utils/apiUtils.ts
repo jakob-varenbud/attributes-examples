@@ -17,7 +17,10 @@ export async function fetchOffers(): Promise<Offer[]> {
 
     // Filtere Angebote aus, die nicht aus den "Vereinigte Staaten von Amerika" oder "United States" sind
     offers = offers.filter(
-      (offer) => offer.country !== 'Vereinigte Staaten von Amerika' && offer.country !== 'United States'
+      (offer) =>
+        offer.country !== 'Vereinigte Staaten von Amerika' &&
+        offer.country !== 'United States' &&
+        offer.country !== 'United Arab Emirates'
     );
 
     // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "test" als Tag haben

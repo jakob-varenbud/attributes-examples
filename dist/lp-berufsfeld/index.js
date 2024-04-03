@@ -7,9 +7,9 @@
       const data = await response.json();
       let offers = data.offers;
       offers = offers.filter(
-        (offer) => offer.country !== "Vereinigte Staaten von Amerika" && offer.country !== "United States"
+        (offer) => offer.country !== "Vereinigte Staaten von Amerika" && offer.country !== "United States" && offer.country !== "United Arab Emirates"
       );
-      offers = offers.filter((offer) => offer.tags && offer.tags.includes("Hagelschaden-Zentrum"));
+      offers = offers.filter((offer) => offer.tags && offer.tags.includes("test"));
       console.log(offers);
       return offers;
     } catch (error) {
@@ -40,6 +40,7 @@
     const newItem2 = templateElement.cloneNode(true);
     const title = newItem2.querySelector('[data-element="title"]');
     const tagsContainer = newItem2.querySelector('[data-element="tags"]');
+    const secondTagsContainer = newItem2.querySelector('[data-element="tags1"]');
     const button = newItem2.querySelector('[data-element="button"]');
     const cities = newItem2.querySelector('[data-element="cities"]');
     const departments = newItem2.querySelector('[data-element="department"]');
@@ -47,16 +48,21 @@
       title.textContent = offer.title;
     if (tagsContainer)
       tagsContainer.innerHTML = "";
+    if (secondTagsContainer)
+      secondTagsContainer.innerHTML = "";
     if (cities)
       cities.innerHTML = "";
     if (departments)
       departments.innerHTML = "";
-    if (tagsContainer && offer.tags) {
-      offer.tags.forEach((tag) => {
-        const tagElement = document.createElement("span");
-        tagElement.textContent = tag;
-        tagsContainer.appendChild(tagElement);
-      });
+    if (tagsContainer && offer.tags && offer.tags.length > 0) {
+      const tagElement = document.createElement("span");
+      tagElement.textContent = offer.tags[0];
+      tagsContainer.appendChild(tagElement);
+    }
+    if (secondTagsContainer && offer.tags && offer.tags.length > 0) {
+      const tagElement = document.createElement("span");
+      tagElement.textContent = offer.tags[1];
+      secondTagsContainer.appendChild(tagElement);
     }
     if (button && offer.careers_url) {
       button.setAttribute("onclick", `window.open('${offer.careers_url}', '_blank')`);
@@ -79,8 +85,8 @@
     const input = newFilter.querySelector("input");
     if (!label || !input)
       return null;
-    const allowedTags = ["Hagelschaden-Zentrum"];
-    if (!allowedTags.includes(tag)) {
+    const forbiddenTags = ["test1"];
+    if (forbiddenTags.includes(tag)) {
       return null;
     }
     label.textContent = tag;
@@ -131,20 +137,25 @@
       async (filtersInstances) => {
         const [filtersInstance] = filtersInstances;
         const filtersTagTemplateElement = filtersInstance.form.querySelector('[data-element="filter"]');
+        const secondFiltersTagTemplateElement = filtersInstance.form.querySelector(
+          '[data-element="second-filter"]'
+        );
         const filtersCityTemplateElement = filtersInstance.form.querySelector('[data-element="cityfilter"]');
         const filtersDepartmentTemplateElement = filtersInstance.form.querySelector(
           '[data-element="departmentfilter"]'
         );
-        if (!filtersTagTemplateElement || !filtersCityTemplateElement || !filtersDepartmentTemplateElement)
+        if (!filtersTagTemplateElement || !secondFiltersTagTemplateElement || !filtersCityTemplateElement || !filtersDepartmentTemplateElement)
           return;
         const tagWrapperElement = filtersTagTemplateElement.parentElement;
         const cityWrapperElement = filtersCityTemplateElement.parentElement;
         const departmentWrapperElement = filtersDepartmentTemplateElement.parentElement;
-        if (!tagWrapperElement || !cityWrapperElement || !departmentWrapperElement)
+        const secondtagWrapperElement = secondFiltersTagTemplateElement.parentElement;
+        if (!tagWrapperElement || !secondtagWrapperElement || !cityWrapperElement || !departmentWrapperElement)
           return;
         filtersTagTemplateElement.remove();
         filtersCityTemplateElement.remove();
         filtersDepartmentTemplateElement.remove();
+        secondFiltersTagTemplateElement.remove();
         const offers = await fetchOffers();
         const { tags, cities, departments } = collectTagsAndCitiesAndDepartments(offers);
         tags.forEach((tag) => {
@@ -152,6 +163,15 @@
           if (!newTagFilter)
             return;
           tagWrapperElement.append(newTagFilter);
+        });
+        offers.forEach((offer) => {
+          if (offer.tags && offer.tags.length > 1) {
+            const secondTag = offer.tags[1];
+            const newSecondTagFilter = createFilter(secondTag, secondFiltersTagTemplateElement);
+            if (newSecondTagFilter) {
+              secondtagWrapperElement.append(newSecondTagFilter);
+            }
+          }
         });
         cities.forEach((city) => {
           const newCityFilter = createCityFilter(city, filtersCityTemplateElement);
