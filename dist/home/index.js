@@ -43,6 +43,7 @@
     const button = newItem2.querySelector('[data-element="button"]');
     const cities = newItem2.querySelector('[data-element="cities"]');
     const departments = newItem2.querySelector('[data-element="department"]');
+    const secondTagsContainer = newItem2.querySelector('[data-element="tags1"]');
     if (title)
       title.textContent = offer.title;
     if (tagsContainer)
@@ -51,12 +52,17 @@
       cities.innerHTML = "";
     if (departments)
       departments.innerHTML = "";
-    if (tagsContainer && offer.tags) {
-      offer.tags.forEach((tag) => {
-        const tagElement = document.createElement("span");
-        tagElement.textContent = tag;
-        tagsContainer.appendChild(tagElement);
-      });
+    if (secondTagsContainer)
+      secondTagsContainer.innerHTML = "";
+    if (tagsContainer && offer.tags && offer.tags.length > 0) {
+      const tagElement = document.createElement("span");
+      tagElement.textContent = offer.tags[0];
+      tagsContainer.appendChild(tagElement);
+    }
+    if (secondTagsContainer && offer.tags && offer.tags.length > 0) {
+      const tagElement = document.createElement("span");
+      tagElement.textContent = offer.tags[1];
+      secondTagsContainer.appendChild(tagElement);
     }
     if (button && offer.careers_url) {
       button.setAttribute("onclick", `window.open('${offer.careers_url}', '_blank')`);

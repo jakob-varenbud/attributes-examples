@@ -16,6 +16,7 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
   const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
   const cities = newItem.querySelector<HTMLDivElement>('[data-element="cities"]'); // Select the div where the city shoulb be placed in
   const departments = newItem.querySelector<HTMLDivElement>('[data-element="department"]'); //Select the div where the department should be placed in
+  const secondTagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags1"]'); // Container for second tags
   // Set the title text
   if (title) title.textContent = offer.title;
 
@@ -23,14 +24,20 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
   if (tagsContainer) tagsContainer.innerHTML = '';
   if (cities) cities.innerHTML = '';
   if (departments) departments.innerHTML = '';
+  if (secondTagsContainer) secondTagsContainer.innerHTML = '';
 
-  // Add each tag as a separate element
-  if (tagsContainer && offer.tags) {
-    offer.tags.forEach((tag) => {
-      const tagElement = document.createElement('span'); // Create a new span for each tag - tagElemet als Konstante Var -/tag als Funktionsname
-      tagElement.textContent = tag;
-      tagsContainer.appendChild(tagElement); // Append the tag element to the container
-    });
+  // Add only the first tag if it exists
+  if (tagsContainer && offer.tags && offer.tags.length > 0) {
+    const tagElement = document.createElement('span'); // Create a new span for the first tag
+    tagElement.textContent = offer.tags[0]; // Set text content to the first tag
+    tagsContainer.appendChild(tagElement); // Append the first tag element to the container
+  }
+
+  //Add second tag if exists
+  if (secondTagsContainer && offer.tags && offer.tags.length > 0) {
+    const tagElement = document.createElement('span'); // Create a new span for the first tag
+    tagElement.textContent = offer.tags[1]; // Set text content to the first tag
+    secondTagsContainer.appendChild(tagElement); // Append the first tag element to the container
   }
 
   // Set the button link to open in a new tab
@@ -51,6 +58,7 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
     departmentElement.textContent = offer.department; //Set the text content to the department from the offer
     departments.appendChild(departmentElement); //Append the department element to the departments container
   }
+
   return newItem;
 }
 
