@@ -20,7 +20,8 @@ export async function fetchOffers(): Promise<Offer[]> {
       (offer) =>
         offer.country !== 'Vereinigte Staaten von Amerika' &&
         offer.country !== 'United States' &&
-        offer.country !== 'United Arab Emirates'
+        offer.country !== 'United Arab Emirates' &&
+        offer.country !== 'India'
     );
 
     // Exclude offers with the title "test"

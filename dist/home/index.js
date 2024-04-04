@@ -7,7 +7,7 @@
       const data = await response.json();
       let offers = data.offers;
       offers = offers.filter(
-        (offer) => offer.country !== "Vereinigte Staaten von Amerika" && offer.country !== "United States" && offer.country !== "United Arab Emirates"
+        (offer) => offer.country !== "Vereinigte Staaten von Amerika" && offer.country !== "United States" && offer.country !== "United Arab Emirates" && offer.country !== "India"
       );
       offers = offers.filter((offer) => offer.title !== "test");
       console.log(offers);
