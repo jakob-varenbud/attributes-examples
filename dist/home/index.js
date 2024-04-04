@@ -85,7 +85,7 @@
     const input = newFilter.querySelector("input");
     if (!label || !input)
       return null;
-    const forbiddenTags = ["Ausbildung"];
+    const forbiddenTags = ["ausbildung"];
     if (forbiddenTags.includes(tag)) {
       return null;
     }
