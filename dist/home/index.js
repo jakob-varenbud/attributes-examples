@@ -39,11 +39,11 @@
   function newItem(offer, templateElement) {
     const newItem2 = templateElement.cloneNode(true);
     const title = newItem2.querySelector('[data-element="title"]');
-    const tagsContainer = newItem2.querySelector('[data-element="tags"]');
+    const tagsContainer = newItem2.querySelector('[data-element="tags1"]');
     const button = newItem2.querySelector('[data-element="button"]');
     const cities = newItem2.querySelector('[data-element="cities"]');
     const departments = newItem2.querySelector('[data-element="department"]');
-    const secondTagsContainer = newItem2.querySelector('[data-element="tags1"]');
+    const secondTagsContainer = newItem2.querySelector('[data-element="tags"]');
     if (title)
       title.textContent = offer.title;
     if (tagsContainer)

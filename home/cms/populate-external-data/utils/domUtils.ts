@@ -12,11 +12,11 @@ export function newItem(offer: Offer, templateElement: HTMLDivElement) {
 
   // Query for internal elements of the Collection Item
   const title = newItem.querySelector<HTMLDivElement>('[data-element="title"]');
-  const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for tags
+  const tagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags1"]'); // Container for tags
   const button = newItem.querySelector<HTMLButtonElement>('[data-element="button"]'); //Selecting the button element
   const cities = newItem.querySelector<HTMLDivElement>('[data-element="cities"]'); // Select the div where the city shoulb be placed in
   const departments = newItem.querySelector<HTMLDivElement>('[data-element="department"]'); //Select the div where the department should be placed in
-  const secondTagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags1"]'); // Container for second tags
+  const secondTagsContainer = newItem.querySelector<HTMLDivElement>('[data-element="tags"]'); // Container for second tags
   // Set the title text
   if (title) title.textContent = offer.title;
 
