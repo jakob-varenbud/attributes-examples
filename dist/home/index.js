@@ -79,6 +79,10 @@
     const input = newFilter.querySelector("input");
     if (!label || !input)
       return null;
+    const forbiddenTags = ["Ausbildung"];
+    if (forbiddenTags.includes(tag)) {
+      return null;
+    }
     label.textContent = tag;
     input.value = tag;
     input.id = `checkbox-${tag}`;
