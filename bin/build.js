@@ -11,7 +11,7 @@ const entryPoints = [
   'lp-berufsfeld/index.ts',
   'lp-stadt/index.ts',
   'lp-taetigkeit/index.ts',
-  'lp-unternehmen/index.ts',
+  'lp-drs-kfz-technik-ausbildung/index.ts',
 ];
 
 /**

@@ -15,9 +15,8 @@ export async function fetchOffers(): Promise<Offer[]> {
     const data = await response.json();
     let offers: Offer[] = data.offers;
 
-    // Exclude offers from "Vereinigte Staaten von Amerika"
-    offers = offers.filter((offer) => offer.country !== 'Vereinigte Staaten von Amerika');
-    offers = offers.filter((offer) => offer.country !== 'United States');
+    // Zusätzliche Filterung, um nur Angebote anzuzeigen, die "DRS-KFZ-Technik" und "Ausbildung" als Tag haben
+    offers = offers.filter((offer) => offer.tags.includes('DRS Kfz-Technik') && offer.tags.includes('ausbildung'));
 
     console.log(offers);
     return offers;
