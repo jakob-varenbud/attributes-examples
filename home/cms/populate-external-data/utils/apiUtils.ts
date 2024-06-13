@@ -24,8 +24,8 @@ export async function fetchOffers(): Promise<Offer[]> {
         offer.country !== 'India'
     );
 
-    // Exclude offers with the title "test"
-    offers = offers.filter((offer) => offer.title !== 'test');
+    // Exclude offers the tag "france"
+    offers = offers.filter((offer) => !offer.tags.includes('france'));
 
     console.log(offers);
     return offers;
